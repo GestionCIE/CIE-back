@@ -245,36 +245,22 @@ class StructureDB {
       });
   }
 
-  createTableMeeting() {
+  createTableCalendar() {
     this.database
       .queryCommand(
-        `CREATE TABLE IF NOT EXISTS mydb.Meeting (
-            idmeeting INT NOT NULL AUTO_INCREMENT,
-            startTime VARCHAR(45) NOT NULL,
-            endTime VARCHAR(45) NOT NULL,
-            incharge VARCHAR(45) NOT NULL,
-            PRIMARY KEY (idmeeting))`
+        `CREATE TABLE IF NOT EXISTS mydb.Calendar (
+            idcalendar INT NOT NULL AUTO_INCREMENT,
+            type INT NOT NULL,
+            title VARCHAR(100) NOT NULL,
+            purpose VARCHAR(200) NOT NULL,
+            date VARCHAR(45) NOT NULL,
+            hour VARCHAR(45) NULL,            
+            idRes INT NOT NULL,
+            idGuests VARCHAR(45) NULL,
+            PRIMARY KEY (idcalendar))`
       )
       .then((res) => {
         console.info("create table meeting");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  createTableGuests() {
-    this.database
-      .queryCommand(
-        `CREATE TABLE IF NOT EXISTS mydb.Guests (
-            idguests INT NOT NULL AUTO_INCREMENT,
-            idmeeting INT NOT NULL,
-            fullname VARCHAR(100) NOT NULL,
-            attend TINYINT NOT NULL,
-            PRIMARY KEY (idguests))`
-      )
-      .then((res) => {
-        console.info("create table guests");
       })
       .catch((error) => {
         console.error(error);
@@ -405,21 +391,21 @@ class StructureDB {
     this.database
       .queryCommand(
         `INSERT INTO mydb.SystemModules (nameModule, role, route, active)
-        values ('Inicio', 'assistant', '/admin',  1),
-         ('Gestion de proyectos', 'adviser', '/admin/management',  1),
-         ('Eventos', 'assistant', '/admin/events',  1),
-         ('Servicios', 'assistant', '/admin/services',  1),
-         ('Calendario', 'assistant', '/admin/calendar',  1),
-         ('Calendario', 'entrepreneur', '/admin/calendar',  1),
-         ('Calendario', 'adviser', '/admin/calendar',  1),
-         ('Calendario', 'administrator', '/admin/calendar',  1),
-         ('Gestion de Proyectos', 'entrepreneur', '/admin/management',  1),
-         ('Configuracion', 'administrator', '/admin/config',  1),
-         ('Config de Proyectos', 'adviser', '/admin/proyect',  1),
-         ('Trazabilidad de eventos', 'assistant', '/admin/eventTraceability',  1),
-         ('Asistencia', 'assistant', '/admin/assistance',  1),
-         ('Traz. de proyectos', 'adviser', '/admin/trazproject/', 1 ),
-         ('Traz. de proyectos', 'administrator', '/admin/trazproject/', 1 )
+        values ('Inicio', 'assistant', '/dashboard',  1),
+         ('Gestion de proyectos', 'adviser', '/dashboard/management',  1),
+         ('Eventos', 'assistant', '/dashboard/events',  1),
+         ('Servicios', 'assistant', '/dashboard/services',  1),
+         ('Calendario', 'assistant', '/dashboard/calendar',  1),
+         ('Calendario', 'entrepreneur', '/dashboard/calendar',  1),
+         ('Calendario', 'adviser', '/dashboard/calendar',  1),
+         ('Calendario', 'administrator', '/dashboard/calendar',  1),
+         ('Gestion de Proyectos', 'entrepreneur', '/dashboard/management',  1),
+         ('Configuracion', 'administrator', '/dashboard/config',  1),
+         ('Config de Proyectos', 'adviser', '/dashboard/proyect',  1),
+         ('Trazabilidad de eventos', 'assistant', '/dashboard/eventTraceability',  1),
+         ('Asistencia', 'assistant', '/dashboard/assistance',  1),
+         ('Traz. de proyectos', 'adviser', '/dashboard/trazproject/', 1 ),
+         ('Traz. de proyectos', 'administrator', '/dashboard/trazproject/', 1 )
        `
       )
       .then((res) => {
@@ -467,8 +453,7 @@ class StructureDB {
     });
     this.createTableLastActivitySystem();
     this.createTableEventStatistics();
-    this.createTableMeeting();
-    this.createTableGuests();
+    this.createTableCalendar();
     this.createTableActivityStatistics();
     this.createTableComments();
     this.createTableMethodology();
